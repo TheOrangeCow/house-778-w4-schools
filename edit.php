@@ -4,10 +4,18 @@ include "../base/chech2.php";
 include "../base/main.php";
 session_start(); 
 
+if (file_exists(__DIR__ . '/.env')) {
+    $lines = file(__DIR__ . '/.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        putenv($line);
+    }
+}
+
 $host = "127.0.0.1:3306";
-$user = "u946651547_house888"; 
-$pass = "pitb4c&sO";
-$db = "u946651547_w4schools";
+$user = getenv('db_user');
+$pass = getenv('db_pass');
+$db = "w4schools";
 
 $conn = new mysqli($host, $user, $pass, $db);
 
